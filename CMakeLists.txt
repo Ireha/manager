@@ -14,7 +14,7 @@ find_package(Threads REQUIRED)
 file(GLOB SOURCES "src/*.cpp")
 
 # 生成可执行文件到 bin 目录
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 add_executable(myschedule ${SOURCES})
 
 # 链接线程库

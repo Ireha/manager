@@ -21,7 +21,7 @@ void printHelp() {
               << "      注册新用户\n\n"
               << "  addtask <名称> <启动时间> <提醒时间> [优先级] [分类]\n"
               << "      添加任务。时间格式建议: \"YYYY-MM-DD HH:MM\"\n"
-              << "      例如: addtask \"C++作业\" \"2026-08-01 10:00\" \"2026-08-01 09:50\" 高 学习\n\n"
+              << "      例如: addtask \"C++作业\" \"2026-08-01 10:00\" \"2026-08-01 11:00\" 高 学习\n\n"
               << "  showtask\n"
               << "      按启动时间对齐显示所有任务\n\n"
               << "  deltask <ID>\n"
@@ -113,7 +113,7 @@ int main(int argc, char* argv[]) {
                 std::cout << "请输入启动时间 (如 2026-08-01 10:00): ";
                 std::cin.ignore();
                 std::getline(std::cin, start);
-                std::cout << "请输入提醒时间 (如 2026-08-01 09:50): ";
+                std::cout << "请输入提醒时间 (如 2026-08-01 11:00): ";
                 std::getline(std::cin, remind);
                 std::cout << "请输入优先级 (高/中/低，默认: 中): ";
                 std::string priInput;
@@ -152,7 +152,7 @@ int main(int argc, char* argv[]) {
 
     // =========================================================================
     // 模式 2: 命令行直接传参运行模式
-    // 示例: ./myschedule admin 123456 addtask "开会" "2026-08-01 10:00" "2026-08-01 09:50"
+    // 示例: ./myschedule admin 123456 addtask "开会" "2026-08-01 10:00" "2026-08-01 11:00"
     // =========================================================================
     if (arg1 == "register" && argc >= 4) {
         userManager.registerUser(argv[2], argv[3]);
