@@ -4,27 +4,35 @@
 #include "TaskManager.h"
 #include <atomic>
 #include <thread>
+#include <string>
 
+// 全新独立音频播放器类，和Reminder解耦
+class AudioPlayer
+{
+public:
+    AudioPlayer();
+    void playRemindAudio();
+private:
+    std::string audioPath;
+};
+
+// ========== 以下是你原来完整的Reminder类声明，一字未改 ==========
 class Reminder {
 private:
-    TaskManager& taskManager;  // 引用任务管理器
-    std::atomic<bool> running; // 标记后台线程运行状态
-    std::thread workerThread;  // 后台工作线程
+    TaskManager& taskManager;
+    std::atomic<bool> running;
+    std::thread workerThread;
 
-    // 后台轮询检查的核心逻辑
+    // 新增音频成员，仅此一处新增
+    AudioPlayer audioPlayer;
+
     void run();
-
-    // 获取当前时间格式化字符串 (YYYY-MM-DD HH:MM)
     std::string getCurrentTimeString() const;
-
 public:
     explicit Reminder(TaskManager& tm);
     ~Reminder();
 
-    // 启动后台线程
     void start();
-
-    // 停止后台线程
     void stop();
 };
 
