@@ -31,16 +31,111 @@ MainWindow::MainWindow(QWidget *parent)
     initUI();
 
     setStyleSheet(
-        "QMainWindow{background:#202124;}"
-        "QGroupBox{color:white;font-size:16px;border:1px solid #555;border-radius:8px;margin-top:10px;padding:10px;}"
-        "QLabel{color:white;font-size:14px;}"
-        "QLineEdit,QComboBox{background:#303134;color:white;padding:6px;border-radius:6px;}"
-        "QPushButton{background:#4285f4;color:white;border-radius:8px;padding:8px;}"
-        "QPushButton:hover{background:#3367d6;}"
-        "QTableWidget{background:#303134;color:white;gridline-color:#666;}"
-        "QHeaderView::section{background:#4285f4;color:white;padding:5px;}"
-    );
 
+    /* 主窗口 */
+    "QMainWindow{"
+    "background:#202124;"
+    "}"
+
+
+    /* 分组框 */
+    "QGroupBox{"
+    "color:#dddddd;"
+    "font-size:16px;"
+    "border:1px solid #555;"
+    "border-radius:8px;"
+    "margin-top:10px;"
+    "padding:10px;"
+    "}"
+
+
+    /* 普通文字 */
+    "QLabel{"
+    "color:#dddddd;"
+    "font-size:14px;"
+    "}"
+
+
+    /* 输入框 */
+    "QLineEdit{"
+    "background:#303134;"
+    "color:#000000;"
+    "padding:6px;"
+    "border-radius:6px;"
+    "selection-background-color:#4285f4;"
+    "}"
+
+
+    /* 下拉框 */
+    "QComboBox{"
+    "background:#303134;"
+    "color:#000000;"
+    "padding:6px;"
+    "border-radius:6px;"
+    "}"
+
+
+    /* 下拉菜单展开 */
+    "QComboBox QAbstractItemView{"
+    "background:#ffffff;"
+    "color:#000000;"
+    "selection-background-color:#4285f4;"
+    "}"
+
+
+    /* 按钮 */
+    "QPushButton{"
+    "background:#4285f4;"
+    "color:white;"
+    "border-radius:8px;"
+    "padding:8px;"
+    "}"
+
+
+    "QPushButton:hover{"
+    "background:#3367d6;"
+    "}"
+
+
+    /* 表格 */
+    "QTableWidget{"
+    "background:#303134;"
+    "color:white;"
+    "gridline-color:#666;"
+    "}"
+
+
+    /* 表头 */
+    "QHeaderView::section{"
+    "background:#4285f4;"
+    "color:white;"
+    "padding:5px;"
+    "}"
+
+
+    /* 弹窗 */
+    "QDialog{"
+    "background:#ffffff;"
+    "}"
+
+
+    "QDialog QLabel{"
+    "color:#000000;"
+    "}"
+
+
+    "QDialog QLineEdit{"
+    "background:#eeeeee;"
+    "color:#000000;"
+    "}"
+
+
+    "QDialog QComboBox{"
+    "background:#eeeeee;"
+    "color:#000000;"
+    "}"
+
+);
     refreshTimer = new QTimer(this);
     refreshTimer->setInterval(1500);
     connect(refreshTimer,&QTimer::timeout,this,&MainWindow::refreshTable);
@@ -229,9 +324,46 @@ void MainWindow::slotOpenAddDialog()
         return;
     }
     QDialog dlg(this);
-    dlg.setWindowTitle("新增任务");
-    dlg.resize(420, 340);
-    QVBoxLayout* dlgLayout = new QVBoxLayout(&dlg);
+dlg.setWindowTitle("新增任务");
+dlg.resize(420,340);
+
+
+// 新增：修复弹窗文字颜色
+dlg.setStyleSheet(
+    "QDialog {"
+    "background-color:white;"
+    "color:black;"
+    "}"
+
+    "QLabel {"
+    "color:black;"
+    "font-size:14px;"
+    "}"
+
+    "QLineEdit {"
+    "background-color:white;"
+    "color:black;"
+    "border:1px solid #999;"
+    "padding:6px;"
+    "}"
+
+    "QComboBox {"
+    "background-color:white;"
+    "color:black;"
+    "border:1px solid #999;"
+    "padding:6px;"
+    "}"
+
+    "QPushButton {"
+    "background-color:#4285f4;"
+    "color:white;"
+    "border-radius:6px;"
+    "padding:8px;"
+    "}"
+);
+
+
+QVBoxLayout* dlgLayout = new QVBoxLayout(&dlg);
 
     dlgLayout->addWidget(new QLabel("任务名称"));
     edName = new QLineEdit();
