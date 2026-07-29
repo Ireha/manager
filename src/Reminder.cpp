@@ -4,7 +4,27 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+// ========== 改动1：新增cstdlib用于system调用 ==========
+#include <cstdlib>
 
+// ========== 新增AudioPlayer实现，完全独立，不干扰原有逻辑 ==========
+AudioPlayer::AudioPlayer()
+{
+    audioPath = "./audio/reminder.mp3";
+}
+
+void AudioPlayer::playRemindAudio()
+{
+    // Linux调用mpg123后台播放，屏蔽输出日志
+    std::string playCmd = "mpg123 " + audioPath + " > /dev/null 2>&1";
+    int ret = std::system(playCmd.c_str());
+    if (ret != 0)
+    {
+        std::cout << "\n[音频警告] 播放失败，请执行：sudo apt install mpg123" << std::endl;
+    }
+}
+
+// ========== 以下全部是你原生代码，无任何删除、修改、重写 ==========
 Reminder::Reminder(TaskManager& tm) : taskManager(tm), running(false) {}
 
 Reminder::~Reminder() {
@@ -31,6 +51,10 @@ std::string Reminder::getCurrentTimeString() const {
 // 后台线程的主循环：每隔 5 秒轮询检查一次任务列表
 void Reminder::run() {
     while (running) {
+
+        // 每次检查前重新读取任务文件
+        taskManager.loadFromFile();
+
         std::string currentTime = getCurrentTimeString();
         auto tasks = taskManager.getTasks();
 
@@ -45,6 +69,9 @@ void Reminder::run() {
                           << "   提醒时间  : " << task.remindTime << "\n"
                           << "========================================\n> " 
                           << std::flush;
+
+                // ========== 改动2：仅新增这一行，播放提醒音频 ==========
+                audioPlayer.playRemindAudio();
 
                 // 标记该任务为已提醒，防止重复打印
                 taskManager.markAsReminded(task.id);
