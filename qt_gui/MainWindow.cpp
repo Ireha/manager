@@ -179,14 +179,20 @@ void MainWindow::initUI()
     editPwd->setEchoMode(QLineEdit::Password);
 
     btnLogin = new QPushButton("登录");
+    btnRegister = new QPushButton("注册");
 
     loginLayout->addWidget(editUser);
     loginLayout->addWidget(editPwd);
     loginLayout->addWidget(btnLogin);
+    loginLayout->addWidget(btnRegister);
 
 
     connect(btnLogin,&QPushButton::clicked,
             this,&MainWindow::slotLogin);
+    connect(btnRegister,
+        &QPushButton::clicked,
+        this,
+        &MainWindow::slotRegister);
 
 
 
@@ -510,6 +516,48 @@ void MainWindow::slotVoiceInput()
             this,
             "失败",
             "语音解析失败或任务重复"
+        );
+    }
+}
+void MainWindow::slotRegister()
+{
+    QString user = editUser->text();
+    QString pwd = editPwd->text();
+
+
+    if(user.isEmpty() || pwd.isEmpty())
+    {
+        QMessageBox::warning(
+            this,
+            "提示",
+            "用户名和密码不能为空"
+        );
+        return;
+    }
+
+
+
+    bool ok = userMgr.registerUser(
+        user.toStdString(),
+        pwd.toStdString()
+    );
+
+
+
+    if(ok)
+    {
+        QMessageBox::information(
+            this,
+            "注册成功",
+            "用户创建成功，请登录"
+        );
+    }
+    else
+    {
+        QMessageBox::warning(
+            this,
+            "注册失败",
+            "用户名已经存在"
         );
     }
 }

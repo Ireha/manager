@@ -27,6 +27,7 @@ private:
     QLineEdit* editUser;
     QLineEdit* editPwd;
     QPushButton* btnLogin;
+    QPushButton* btnRegister; 
     QTableWidget* tableTask;
     QPushButton* btnAdd;
     QPushButton* btnDel;
@@ -43,6 +44,7 @@ private:
 
 private slots:
     void slotLogin();
+    void slotRegister();
     void slotOpenAddDialog();
     void slotConfirmAdd();
     void slotDeleteTask();
